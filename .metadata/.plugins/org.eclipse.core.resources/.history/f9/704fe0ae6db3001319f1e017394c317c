@@ -1,0 +1,16 @@
+package alpha.crypto;
+
+public class EncryptionTest {
+	
+	static Encryption encryption;
+
+	public static void main(String [] args){
+		try {
+			encryption = new Encryption();
+			encryption.encrypt();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}

@@ -1,0 +1,12 @@
+package Locker;
+
+public class AsymmetricCryptoLocker {
+	
+	public AsymmetricCryptoLocker(){
+		// create RSA public key cipher
+	    pkCipher = Cipher.getInstance("RSA");
+	    // create AES shared key cipher
+	    aesCipher = Cipher.getInstance("AES");
+	}
+
+}

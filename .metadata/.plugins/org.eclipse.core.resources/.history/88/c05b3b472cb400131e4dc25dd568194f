@@ -1,0 +1,10 @@
+package Locker;
+
+public class CryptoLockerTest {
+	
+	CryptoLocker locker;
+	String msg;
+	public static void main(String [] args){
+		
+	}
+}

@@ -1,0 +1,21 @@
+package Locker;
+
+import java.util.Scanner;
+
+public class CryptoLockerTest {
+	
+	static Cryptolocker locker;
+	static Scanner input;
+	
+	
+	public static void main(String [] args) throws Exception{
+		String msg;
+		
+		input = new Scanner(System.in);
+		System.out.println("Message to Encrypt");
+		msg = input.next();
+		
+		locker = new Cryptolocker(msg);
+		locker.generateKey();
+	}
+}

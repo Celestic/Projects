@@ -1,0 +1,13 @@
+package Locker;
+
+
+
+public class AsymmetricCryptoLockTest {
+	
+	public static void main(String []args) throws Exception{
+		
+		AsymmetricCryptoLocker secure = new AsymmetricCryptoLocker();
+
+	}
+
+}

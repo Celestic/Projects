@@ -1,0 +1,18 @@
+package Locker;
+
+import java.util.Scanner;
+
+public class CryptoLockerTest {
+	
+	Cryptolocker locker;
+	String msg;
+	static Scanner input;
+	
+	
+	public static void main(String [] args){
+		String msg;
+		
+		input = new Scanner(System.in);
+		msg = input.next();
+	}
+}

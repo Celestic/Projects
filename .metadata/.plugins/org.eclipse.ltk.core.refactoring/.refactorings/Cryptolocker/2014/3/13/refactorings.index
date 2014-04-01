@@ -1,0 +1,15 @@
+1395676758287	Rename type 'EncryptionText'
+1395677398057	Rename type 'Encryption'
+1395682130064	Rename package 'alpha.crypto'
+1395756482028	Rename package 'Encryption'
+1395772407640	Delete element
+1395772412828	Delete element
+1395772470196	Rename type 'async'
+1395773050835	Rename type 'Cryptolocker'
+1395773063920	Rename type 'CryptoLockerTest'
+1395773071179	Delete element
+1395773097955	Rename package 'Locker'
+1395773115074	Move compilation unit
+1395773118543	Copy compilation unit
+1395773122348	Move compilation unit
+1395773131282	Delete element

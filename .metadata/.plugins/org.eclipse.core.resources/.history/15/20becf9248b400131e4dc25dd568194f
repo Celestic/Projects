@@ -1,0 +1,24 @@
+package Locker;
+
+import java.io.File;
+
+
+
+public class AsymmetricCryptoLockTest {
+	
+	public static void main(String []args) throws Exception{
+		
+		AsymmetricCryptoLocker secure = new AsymmetricCryptoLocker();
+
+		
+		// to encrypt a file
+		secure.makeKey();
+		secure.saveKey(encryptedKeyFile, publicKeyFile);
+		secure.encrypt(fileToEncrypt, encryptedFile);
+
+		// to decrypt it again
+		secure.loadKey(encryptedKeyFile, privateKeyFile);
+		secure.decrypt(encryptedFile, unencryptedFile);
+	}
+
+}
