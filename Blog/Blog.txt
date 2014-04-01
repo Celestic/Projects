@@ -3,26 +3,6 @@ Projects
 ========
 
 
-Blog #1
-
-===========
-
-
-So after class ended around 11am, we went on another coffee run with Liam and a few other students. 
-
-We exchanged some information about the units they get and the ones we have back home.
-
-After that we went home and gave the cryptolocker another shot. 
-
-We read up and gathered some general information on some terms which we weren’t yet familiar with like AES, the KeyGenerator & Cipher class.
-
-After we figured that out we googled a few simple exercises on how to encrypt and decrypt some string examples. 
-That went quite alright so we’re progressing with a steady pace on the cryptolocker. 
-Tomorrow we’ll probably finish it and we’ll try to come up with a few ideas on our own.
-
-
-
-
 Blog #2
 
 ===========
@@ -59,3 +39,24 @@ In case of an image where the Alpha channel is unimportant, we thought an intere
 This would allow us to store 11 bits in just one pixel, which is even more than one byte, 1.375 bytes per pixel to be exact. Thus, this means we could store 11 bytes of data in just 8 adjacent pixels, which sounded like a pretty good start to us. 
 
 Unfortunately, we haven't had the chance yet to implement our design into Java-code, but given the idea is fully worked out in our heads and on paper, this will probably/hopefully be something to finish tomorrow.
+
+
+Blog #1
+
+===========
+
+
+So after class ended around 11am, we went on another coffee run with Liam and a few other students. 
+
+We exchanged some information about the units they get and the ones we have back home.
+
+After that we went home and gave the cryptolocker another shot. 
+
+We read up and gathered some general information on some terms which we werenï¿½t yet familiar with like AES, the KeyGenerator & Cipher class.
+
+After we figured that out we googled a few simple exercises on how to encrypt and decrypt some string examples. 
+That went quite alright so weï¿½re progressing with a steady pace on the cryptolocker. 
+Tomorrow weï¿½ll probably finish it and weï¿½ll try to come up with a few ideas on our own.
+
+
+
