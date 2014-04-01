@@ -1,19 +1,22 @@
-Projects
-
+Blog
 ========
+
+Blog #3 (01/04/2014)
+====================
+Started the day off by thorougly reading the task description again. We read a few articles about 'Agile software developing methods' , we decided to go with Extreme Programming.
+After we understood it 100% we started brainstorming and throwing ideas around on how we would start developing the application.
+We made a plan about how we would like to develop the app, then we started brainstorming again to find some extra features, we found an interesting one about altering RBG values from an image.
+After we made the plan we slowly started the implementation of some functions. 
+So far we can crop an image , split it into a few tiles using the command line.
+Tomorrow we'll probably start looking up or reading documentation on how to hide data in the tiles.
 
 
 Blog #2
-
 ===========
 
-
 We started the day off by finishing up our CryptoLocker, which has two versions of it. 
-
 The first version is the one where we use a symmetric algorithm to encrypt a piece of data and store it in file somewhere, the key used to encrypt the data is stored in a file as well. 
-
 The symmetric algorithm is quite easy to use and understand.
-
 The second version of our CryptoLocker is the one where we use an asymmetric algorithm, which uses 2 keys, a private one and a public one, the keys are stored in a file. 
 This version is a little bit trickier since we had to use some sort of RSA algorithm which we aren't familiar with yet. 
 We're still trying out a few different versions of it to get more familiar with the encryption and decryption of data.
@@ -21,39 +24,24 @@ We're still trying out a few different versions of it to get more familiar with 
 
 
 After that, we started brainstorming about different approaches to hide data inside other data. 
-
 Because we barely have any experience in this field (yet), we started thinking about OpenPuff, which we  already work with in our first assignment last week. 
-
 We wanted to start by taking a deeper look into what is happening behind the scenes when a message gets hidden into an image, while using the OpenPuff's hiding techniques. 
-
 After doing the necessary research, we tried to come up with our own implementation of the act of hiding a byte of data into an image-file, by altering the RGBA values of a pixel of the image.
-
 We worked out an example using a simple modulus operator based algorithm that uses two adjacent pixels to hide one byte of data. 
-
 We chose to use 2 pixels in order to hide one bit of data in every R, G, B and A value of both pixels, together forming the full byte (8 bits). 
-
 We figured if we would have used only one pixel to hide the full byte of data, that would imply we had to alter the RGBA values in a more visible way for the human-eye, and thus make it easier to detect the fact a message was hidden inside the image. 
-
 In case of an image where the Alpha channel is unimportant, we thought an interesting alternative approach would perhaps be to modify one bit of the R, G and B values and all 8 bits of the alpha channel. 
-
 This would allow us to store 11 bits in just one pixel, which is even more than one byte, 1.375 bytes per pixel to be exact. Thus, this means we could store 11 bytes of data in just 8 adjacent pixels, which sounded like a pretty good start to us. 
-
 Unfortunately, we haven't had the chance yet to implement our design into Java-code, but given the idea is fully worked out in our heads and on paper, this will probably/hopefully be something to finish tomorrow.
 
 
 Blog #1
-
 ===========
 
-
 So after class ended around 11am, we went on another coffee run with Liam and a few other students. 
-
 We exchanged some information about the units they get and the ones we have back home.
-
 After that we went home and gave the cryptolocker another shot. 
-
 We read up and gathered some general information on some terms which we weren�t yet familiar with like AES, the KeyGenerator & Cipher class.
-
 After we figured that out we googled a few simple exercises on how to encrypt and decrypt some string examples. 
 That went quite alright so we�re progressing with a steady pace on the cryptolocker. 
 Tomorrow we�ll probably finish it and we�ll try to come up with a few ideas on our own.
