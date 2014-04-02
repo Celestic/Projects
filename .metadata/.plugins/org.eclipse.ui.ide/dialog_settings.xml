@@ -5,6 +5,9 @@
 		<item value="false" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
 		<item value="false" key="WizardProjectsImportPage.STORE_NESTED_PROJECTS"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="D:\gegevens\Desktop\ImageTiler"/>
+			<item value="D:\gegevens\Desktop\ImageCropper"/>
+			<item value="D:\gegevens\Desktop\CLI"/>
 			<item value="D:\gegevens\Desktop\riot-application-project\Task3"/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
