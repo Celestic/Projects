@@ -1,8 +1,0 @@
-package Locker;
-
-FileEncryption secure = new FileEncryption();
-
-
-public class AsymmetricCryptoLockTest {
-
-}

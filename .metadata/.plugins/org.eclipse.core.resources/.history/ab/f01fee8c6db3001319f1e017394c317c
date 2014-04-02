@@ -1,8 +1,0 @@
-package alpha.crypto;
-
-public class EncryptionTest {
-
-	public static void main(String [] args){
-		
-	}
-}
