@@ -3,7 +3,6 @@ INDEX VERSION 1.126+D:\gegevens\Desktop\Projects\.metadata\.plugins\org.eclipse.
 1299022128.index
 1498219845.index
 1995173708.index
-2236307962.index
 1115467115.index
 1697886153.index
 305854171.index
