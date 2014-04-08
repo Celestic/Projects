@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
@@ -22,7 +23,10 @@ public class AsymmetricCryptoLocker {
 	public static final String PRIVATE_KEY_FILE = "C:/CryptoLocker/Asymmetric/keys/private.key";
 
 	public static final String PUBLIC_KEY_FILE = "C:/CryptoLocker/Asymmetric/keys/public.key";
-	public static final String MSG_ENCRYPTION = "C:/CryptoLocker/Asymmetric/Encryption/Encryption.txt";
+	public static final String MSG_ENCRYPTION = "C:/CryptoLocker/Asymmetric/Encryption/Output.txt";
+	File encryption = new File(MSG_ENCRYPTION);
+
+	
 
 	/**
 	 * Generate key which contains a pair of private and public key using 1024
@@ -64,6 +68,8 @@ public class AsymmetricCryptoLocker {
 					new FileOutputStream(privateKeyFile));
 			privateKeyOS.writeObject(key.getPrivate());
 			privateKeyOS.close();
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -99,12 +105,27 @@ public class AsymmetricCryptoLocker {
 	 */
 	public static byte[] encrypt(String text, PublicKey key) {
 		byte[] cipherText = null;
+
 		try {
 			// get an RSA cipher object and print the provider
 			final Cipher cipher = Cipher.getInstance(ALGORITHM);
 			// encrypt the plain text using the public key
 			cipher.init(Cipher.ENCRYPT_MODE, key);
 			cipherText = cipher.doFinal(text.getBytes());
+			
+
+			File file = new File(MSG_ENCRYPTION);
+
+			
+			if (file.getParentFile() != null) {
+				file.getParentFile().mkdirs();
+			}
+			file.createNewFile();
+			ObjectOutputStream publicKeyOS = new ObjectOutputStream(
+					new FileOutputStream(MSG_ENCRYPTION));
+			publicKeyOS.writeObject(cipherText);
+			publicKeyOS.close();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -141,5 +162,5 @@ public class AsymmetricCryptoLocker {
 	/**
 	 * Test the EncryptionUtil
 	 */
-	
+
 }
