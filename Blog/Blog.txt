@@ -1,6 +1,15 @@
 Blog
 ========
 
+Blog #4 (08/04/2014)
+====================
+Got home started brainstorming again, at first thought I'd prefer to go with a car based application since a camerabased looks way more complicated then the car one.
+How should we move the car from point A to point B when we're given coordinates? What if we want to move more cars? Making a thread for every car seems to be quite dumb.
+Made a sketch on how our database could look like, around 6-7 tables : details about the cars, details about the camera & route? details about a route and linking the car to a route.
+Or linking a car to a camera etc...
+Writing each car instantly to the database or writing it to a txt file or xml file which you could execute to write it to the database so inserting poisonous data could be easier.
+
+
 Blog #3 (01/04/2014)
 ====================
 Started the day off by thorougly reading the task description again. We read a few articles about 'Agile software developing methods' , we decided to go with Extreme Programming.
