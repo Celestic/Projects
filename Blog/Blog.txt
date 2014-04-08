@@ -3,11 +3,66 @@ Blog
 
 Blog #4 (08/04/2014)
 ====================
-Got home started brainstorming again, at first thought I'd prefer to go with a car based application since a camerabased looks way more complicated then the car one.
-How should we move the car from point A to point B when we're given coordinates? What if we want to move more cars? Making a thread for every car seems to be quite dumb.
-Made a sketch on how our database could look like, around 6-7 tables : details about the cars, details about the camera & route? details about a route and linking the car to a route.
-Or linking a car to a camera etc...
-Writing each car instantly to the database or writing it to a txt file or xml file which you could execute to write it to the database so inserting poisonous data could be easier.
+We got home and started brainstorming again, at first sight, we would prefer to go with a car based application since
+a camera-based one looks way more complicated than the car one, since the cameras would have to know each other's existence
+and data. Although using the car-based approach might consume a lot more memory, we will test this out later, but stick 
+with that idea for now. A second pointer: how should we move the car from point A to point B when we're given certain
+GPS coordinates? What if we want to move more cars? As discussed today, we will start out by using simple geometric 
+functions to simulate movement.
+
+We have been thinking about various ways to simulate this car movement in Java. Since a car will travel a certain
+distance over a certain amount of time, it will be necessary for our program to work with some sort of timer that can
+keep track of the progression of the vehicle. A first thought we had was using Threads to accomplish this.
+Inside the run-method of the thread, we could use a continous while-loop representing the movement of the car,
+and perhaps also implement some small things like stopping at traffic lights.
+
+A simple (not worked out) example of this would look like:
+
+
+    int pauseRedd = 6000;
+
+
+    public void run()
+    { 
+	      while (true)
+	      {  
+            currentTime= System.currentTimeMillis();
+            timelap = currentTime - paramTime;
+
+            if (timelap > 50) 
+               carflow[index].update();
+
+            if (signal == RED_LIGHT)
+            {
+               signal = 0;
+               traficLightpausingTime = pauseRedd;
+            }
+
+	          try
+            {
+		          Thread.sleep(CONSTANT_PAUSE_TIME + traficLightpausingTime);
+	          }
+	          catch (InterruptedException e)
+	          {
+		          break;
+	          }
+	      }
+    }
+
+
+But before running ahead of ourselves on simulating the movement, we thought it'd be smarter to start out by
+thinking about the mathematics needed to do this. A continous movement could be represented by a function where
+we increment a variable time and multiply it with the velocity of the vehicle. 
+
+Subsequently we made a sketch on how our database could look like: details about the cars, details about the cameras &
+routes and linking the car to a route (or in another scenario: linking a car to a camera).
+
+And finally, we exchanged some thoughts about either writing each car instantly to the database or writing it to a flat
+file, like for example a simple .txt file or .xml file which you could later on parse and xecute to write it to the
+database. Using the secvond way seemed like a better idea, since it'll consume a lot less memory, plus it will also be
+easier to edit and/or insert (poisonous) data later on.
+
+
 
 
 Blog #3 (01/04/2014)
