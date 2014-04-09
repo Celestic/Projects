@@ -1,0 +1,57 @@
+
+AUTOMATIC NUMBERPLATE RECOGNITION CAMERAS
+=========================================
+
+-  Maximum amount of cars possible passing a camera
+	Busiest motorway M25:	165,000 cars / day  =  6875 cars / hour  =  +- 115 cars / minute
+
+
+-  Amount of bytes that need to be written per time interval
+
+	Example output:
+	===============
+	30000000;6850YK89;2014-04-09;00:00:00.0;120  =  43 bytes
+
+	GROOTTE 	        ==>  5.173 bytes / minute  =  303.15 kB / hour
+	GROOTTE OP SCHIJF   ==>  8.192 bytes / minute  =  480.00 kB / hour   (because of clusters that couldn't be used to their full potentional)
+	
+	If all camera's would be as busy:	8000 ANPR Camera's * 480.00kB / hour  =  3.66GB / hour
+
+
+-  Traffic simulation:
+
+	==> Generating cars with a starting and ending coordinates
+
+		Other properties:
+			- License registration plate
+			- Speed
+			- Type of car / colour
+
+		
+	==> Generating cameras at certain GPS coordinates
+	
+			- Using OpenStreetMaps or GoogleMaps to determine the actual coordinates
+			- Methods to write the data to a flat file
+
+			
+	==> Mathematics: 
+
+			- Sides/diagonals inside a square, using vectors (distance and direction from point A to B)
+			-Limiting to only UK.
+			- Quadratic equations to simulate curves
+		    	- Perhaps testing with sinus-functions
+
+
+	==> Database: 
+			-Presentation Layer - Business Layer - Data Layer
+			-Drawn up in an XML.	
+
+
+- Vragen:
+
+	==> 
+	==> SQL server management studio gebruiken ?
+
+
+		
+		
