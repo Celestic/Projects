@@ -12,7 +12,7 @@ We wrote the output of the camera to a text file. For now it’s just written as
 Additionally, XML offers options for transferring the structure, or format, of the data along with the actual data. JSON only offers options for transferring data without formatting, and only using traditional data formats. Next thing we played around with was the auto incrementation of the ID’s of the camera’s. Let's play with this thought, we will save the next member with an object. Imagine the following series:
 
 Create instance1 of Camera, id=1, seq=1
-Create instance2, id=2, seq=2
+Create instance2, id=2, seq=2 
 Serialize instance1, id=1, seq=2
 Create instance3, id=3, seq=3
 Deserialize instance1, set seq=2
