@@ -4,12 +4,36 @@ Blog
 
 Blog #6 (12/04/2014)
 ====================
-We have been thinking a lot about the architecture of how our program would look like. We first wanted to start out by using geometric figures to calculate the distance between 2 points, so we drew this out on paper to get an idea of what our algorithms would look like. While we were doing this, we remembered the fact that you stated the earth of course isn't flat, so this would have an impact on longer distances. We then started thinking about the earth as a sphere, but after research found out it was actually an ellipsoid. Knowing this, we figured calculating 2D distances inside for example a square wouldn't really be accurate enough to please us, so we started searching for a suitable library we could use. This is when we found Michael Gavaghan's Java Geodesy Library for GPS using Vincenty’s Formulae. We implemented it into a little test project and started playing around with it until we felt familiar with it. We found this a good first step of our project, since we now had an accurate representation of the earth.
-After establishing that, we started thinking about other parts that were necessary in order to start our real simulation. We decided to start off by writing a simple Camera class that would hold an ID and GPS-coordinates. For now we thought it would be okay to just generate some random coordinates. We started off by creating a camera with basic properties: ID, longitude & latitude and subsequently writing these to a text file.
-While generating random coordinates for now seemed like a good idea, there of course is the disadvantage our camera would be situated off-road or in water. Hopefully there's a nice, clean and efficient way to do this in the future? This is an extremely interesting topic, from both a theoretical and practical perspective. How critical are accuracy and correctness? Will identifying sea as land or vice-versa be a catastrophic failure? We will probably be needing OpenStreetMaps or GoogleMaps for this, but decided to not run ahead of ourselves and leave this aside for now.
+We have been thinking a lot about the architecture of how our program would look like. We first wanted to start out by
+using geometric figures to calculate the distance between 2 points, so we drew this out on paper to get an idea of what
+our algorithms would look like. While we were doing this, we remembered the fact that you stated the earth of course
+isn't flat, so this would have an impact on longer distances. We then started thinking about the earth as a sphere, but
+after research found out it was actually an ellipsoid. Knowing this, we figured calculating 2D distances inside for
+example a square wouldn't really be accurate enough to please us, so we started searching for a suitable library we
+could use. This is when we found Michael Gavaghan's Java Geodesy Library for GPS using Vincenty’s Formulae.
+We implemented it into a little test project and started playing around with it until we felt familiar with it.
+We found this a good first step of our project, since we now had an accurate representation of the earth.
+After establishing that, we started thinking about other parts that were necessary in order to start our real simulation.
+We decided to start off by writing a simple Camera class that would hold an ID and GPS-coordinates. For now we thought
+it would be okay to just generate some random coordinates. We started off by creating a camera with basic properties:
+ID, longitude & latitude and subsequently writing these to a text file.
+While generating random coordinates for now seemed like a good idea, there of course is the disadvantage our camera
+would be situated off-road or in water. Hopefully there's a nice, clean and efficient way to do this in the future?
+This is an extremely interesting topic, from both a theoretical and practical perspective. How critical are accuracy
+and correctness? Will identifying sea as land or vice-versa be a catastrophic failure? We will probably be needing
+OpenStreetMaps or GoogleMaps for this, but decided to not run ahead of ourselves and leave this aside for now.
 
-We wrote the output of the camera to a text file. For now it’s just written as plain text, but we will probably going to try it out with XML or JSON tomorrow to see which one is actually faster. As we discussed on our meeting, JSON will probably win this race, but XML might be stricter and has support for schemas and namespaces. In my opinion JSON is very useful when developing a web application where fast, compact and convenient serialisation of data is required. JSON might be the best tool for sharing data because the data is stored in arrays and records, while XML stores data in trees and XML allows you to include data types like images, charts, and graphs.
-Additionally, XML offers options for transferring the structure, or format, of the data along with the actual data. JSON only offers options for transferring data without formatting, and only using traditional data formats. Next thing we played around with was the auto incrementation of the ID’s of the camera’s. Let's play with this thought, we will save the next member with an object. Imagine the following series:
+We wrote the output of the camera to a text file. For now it’s just written as plain text, but we will probably going
+to try it out with XML or JSON tomorrow to see which one is actually faster. As we discussed on our meeting, JSON will
+probably win this race, but XML might be stricter and has support for schemas and namespaces. In my opinion JSON is
+very useful when developing a web application where fast, compact and convenient serialisation of data is required.
+JSON might be the best tool for sharing data because the data is stored in arrays and records, while XML stores data
+in trees and XML allows you to include data types like images, charts, and graphs.
+Additionally, XML offers options for transferring the structure, or format, of the data along with the actual data.
+JSON only offers options for transferring data without formatting, and only using traditional data formats. Next thing
+we played around with was the auto incrementation of the ID’s of the camera’s. Let's play with this thought, we will
+save the next member with an object. Imagine the following series:
+
 
 Create instance1 of Camera, id=1, seq=1
 Create instance2, id=2, seq=2 
@@ -18,7 +42,8 @@ Create instance3, id=3, seq=3
 Deserialize instance1, set seq=2
 Create instance4, id=3, seq=3
 So, we've got 2 instances, (instance3 and instance4) with the same id.
-If we really want to serialize the state, should we make a separate class (and instance) for the sequence? Probably. But it still should be a static property of the class.
+If we really want to serialize the state, should we make a separate class (and instance) for the sequence?
+Probably. But it still should be a static property of the class.
 
 class Sequence implements Serializable {
 
@@ -34,13 +59,32 @@ class Sequence implements Serializable {
 	}
 }
 
-We should (de)serialize the sequence separately apparently, and set it to the Sequence class with separate getters/setters. Notice that the sequence number may be accessed from more than 1 threads, so the access to it should be synchronized.
+We should (de)serialize the sequence separately apparently, and set it to the Sequence class with separate
+getters/setters. Notice that the sequence number may be accessed from more than 1 threads, so the access to it should
+be synchronized.
 
-After now having both a representation of the earth and the camera's, we started to brainstorm again about what other part of the program we could 'chop off' into a smaller application that would be easy to implement later on. We started thinking about the output that would need to be generated into a flat file whenever a car would pass one of the camera's. We agreed that this part of the application had to be very error-proof  and extendable, since we will probably alter it quite a lot in the future. With this thought in mind, we knew it would be a bad idea to write the different fields hardcoded, but that we would probably be better off by writing a class that would represent one line of data, holding all the different fields. This way data validation would become a lot easier, but also the getting and setting of the actual data would be much more organised. Another advantage would of course be, as stated before, the  fact that altering the structure of our data fields would become very easy in the future. Another thought we had was our scepticism about the new-line escape characters and possible bugs that would show up while using them. We started reading some documentation online and were pleased to very soon find the possibility of using System.getProperty("line.separator"). After all the years of using Java, we had never come across this simple possibility in Java. It goes without speaking that from now on, we will keep on using this platform-independent way of adding escape characters. We now decided we were ready to write our text file writer using an instance of java.io.BufferedWriter and perhaps change it to binary-writing in the future. We finished this standalone program as well, so now have ended up with:
+After now having both a representation of the earth and the camera's, we started to brainstorm again about what
+other part of the program we could 'chop off' into a smaller application that would be easy to implement later on.
+We started thinking about the output that would need to be generated into a flat file whenever a car would pass one
+of the camera's. We agreed that this part of the application had to be very error-proof  and extendable, since we will
+probably alter it quite a lot in the future. With this thought in mind, we knew it would be a bad idea to write the
+different fields hardcoded, but that we would probably be better off by writing a class that would represent one line
+of data, holding all the different fields. This way data validation would become a lot easier, but also the getting and
+setting of the actual data would be much more organised. Another advantage would of course be, as stated before, the 
+fact that altering the structure of our data fields would become very easy in the future. Another thought we had was
+our scepticism about the new-line escape characters and possible bugs that would show up while using them.
+We started reading some documentation online and were pleased to very soon find the possibility of using
+System.getProperty("line.separator"). After all the years of using Java, we had never come across this simple
+possibility in Java. It goes without speaking that from now on, we will keep on using this platform-independent way of
+adding escape characters. We now decided we were ready to write our text file writer using an instance of
+java.io.BufferedWriter and perhaps change it to binary-writing in the future. We finished this standalone program as
+well, so now have ended up with:
+
 	- Geodesy Program capable of doing exact calculations
 	- Camera generator
 	- "DataLine" class representing one line of data to be written
 	- FileWriter class
+	
 	
 We have also just finished writing 0's on all the USB flash drives and SD cards. OFF TO POOLE :-) !
 
