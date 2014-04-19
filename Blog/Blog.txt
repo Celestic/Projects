@@ -1,6 +1,25 @@
 Blog
 ========
 
+Blog #7 (19/04/2014)
+====================
+Over the last 2 days, we have been focussing on planning out every separate part of our application.
+We started out by brainstorming about a full simulation of one car, since we will work with the car-based approach. 
+We already wrote our Car-class last week, including its necessary properties. 
+The only thing left to do here is giving it methods that will perform the actions. 
+These actions will look something like: initiate, accelerate, decelerate, stop. 
+We then thought about the implementation of these methods, but soon found out that they will have to be linked to certain Road-properties. 
+So we temporary put the Car-methods aside and thought about the necessary Road-class. 
+For now we will only be thinking about straight lines representing the streets, 
+so we're not calculating in things like certain curves in a street or upward/downward going streets. 
+Although key properties are: start coordinates, end coordinates and intersections. 
+There was one problem here, we weren't really sure of how to ‘tell’ this street it had ANPR cameras. 
+We thought of two ways of how to accomplish this: 
+one way would be to give every street object a list with its cameras, 
+the other would be to give every street- and camera object an ID, and let these interact with each other through some sort of look-up table. 
+An advantage of using the second way would be that we can use these same camera ID’s in our Camera-manager class, that will hold the relation between a camera and its location, but also between the cameras mutually.
+We’re making a few adjustments to the cryptolocker so you can choose where to store the private, public keys & the encrypted message on your system.
+
 
 Blog #6 (12/04/2014)
 ====================
