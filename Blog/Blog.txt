@@ -1,6 +1,32 @@
 Blog
 ========
 
+Blog #8 (23/04/2014)
+====================
+o	ImageTiler: we already had achieved the hiding of data through bit shifting for one image.
+	This wrote a byte of data to the end of the image. However, the instructions were to split up this byte
+	and write a piece of it at the end of every separate tile in our tiled image. This was quickly fixed, but
+	then we got stuck at the decoding of this. Since there was the possibility of our tiles getting randomly
+	rotated, we had to find a way to let our decoder know where in the image to read. We then got familiar with
+	the usage of HashCodes to identify the different pieces of hidden data. It took us a while to get this working,
+	but it turned out to be exactly what we needed to finish our application.
+
+
+o	CryptoLocker: we found out that in some scenarios, the decryption using our algorithms caused faulty outputs.
+	When writing our encrypted message from our program itself, everything worked smoothly, but once we tried
+	decrypting after reading some text from a text-file, the amount of bytes read were for some reason not the
+	same as when we	extracted the text from a local variable. The problem here was that the AES-128 decryption
+	only accepts an encrypted amount of bytes that is divisible by 16. We read a lot about using padding schemes,
+	but didn’t manage to implement this successfully. Instead we found a work-around that adds “\0” for each
+	missing byte in the message to make it divisible by 16. We are not sure this is a clean way of working, but
+	it works like a charm.
+
+o	ANPR Application: we have been working on some classes and ideas here as well, mainly focussed on optimising
+	the classes representing the Roads and Cameras for our ANPR application, as well as writing a Camera Manager
+	class for it. We will make sure to update our blog very soon with our progress.
+
+
+
 Blog #7 (19/04/2014)
 ====================
 Over the last 2 days, we have been focussing on planning out every separate part of our application.
