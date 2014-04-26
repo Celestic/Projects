@@ -1,6 +1,25 @@
 Blog
 ========
 
+Blog #9 (26/04/2014)
+====================
+During the last 2 days we focussed on finding a way to generate coordinates within the UK borders. As we discussed in
+an earlier meeting, our initial plan was to draw a bounding rectangle around the UK and extract the coordinates
+within that rectangle. But this would of course mean that we would inevitably include parts of ocean as well, so we
+weren't satisfied with this approach. We had to find a way to re-create the border of the UK, and this preferably by
+using the accurate GPS coordinates. So we started to read a lot of documentation on different approaches to accomplish
+this. A first one we found would be using MapInfo, a powerful mapping and geographic analysis application. We downloaded
+the program and played around a little bit with the included examples, but it didn't really look like the most
+straight-forward approach for us. Then we found a website (http://www.baruch.cuny.edu/geoportal/data/esri/esri_intl.htm)
+with open-source shape-files that we could download, these included a lot of details, of which the border-coordinates
+were one. We could open this file with MapInfo as well, but chose not to, because we wanted to directly use this info
+in a Java-program. After some more reading, we found a website called converter.mygeodata.eu which made it possible to
+export this shape-file data to GeoJSON, a format for encoding a variety of geographic data structures. One of its
+possibilities was extracting a MultiPolygon from a set of coordinates in JSON-format, this was exactly what we needed
+to draw our border around the UK. It took us quite a while to get everything working, but finally managed to create
+something looking like this: (see folder Screenshots, UK_border_screenshot)
+
+
 Blog #8 (23/04/2014)
 ====================
 o	ImageTiler: we already had achieved the hiding of data through bit shifting for one image.
