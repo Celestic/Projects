@@ -2,23 +2,31 @@ package symmetricLocker;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
+import java.security.spec.KeySpec;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.apache.commons.codec.binary.Base64;
 
 public class SymmetricCryptoLocker {
 
 	protected String msg;
-	protected static Cipher cipher = null;
+	
 
 	public static final String KEY_FILE = "C:/CryptoLocker/Symmetric/keys/private.key";
-	public static final String MSG_ENCRYPTION = "C:/CryptoLocker/Symmetric/Encryption/Output.txt";
+	public static final String MSG_ENCRYPTION = "C:/CryptoLocker/Symmetric/Encryption/Encryption.txt";
 
 	protected byte[] msgBytes;
 	protected byte[] cipherBytes;
@@ -26,8 +34,6 @@ public class SymmetricCryptoLocker {
 
 	public SymmetricCryptoLocker(String msg) throws Exception {
 		this.msg = msg;
-
-		cipher = Cipher.getInstance("AES");
 
 	}
 
@@ -39,17 +45,20 @@ public class SymmetricCryptoLocker {
 	 * @throws Exception
 	 */
 	public void SymmetricEncrypt(SecretKey secretKey) throws Exception {
-		msgBytes = msg.getBytes();
+		Cipher cipher;
+		
+		
+		
+		msgBytes = msg.getBytes("UTF-8");
+		cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+
 		cipher.init(Cipher.ENCRYPT_MODE, secretKey);
 
 		cipherBytes = cipher.doFinal(msgBytes);
+		
 		String cipherText = new String(cipherBytes, "UTF-8");
 		System.out.println("Encrypted Message: " + cipherText);
 
-//		PrintWriter writer = new PrintWriter("Output.txt", "UTF-8");
-//		writer.println(cipherText);
-//		writer.close();
-//		
 		File file = new File(MSG_ENCRYPTION);
 
 		// Create files to store public and private key
@@ -57,10 +66,10 @@ public class SymmetricCryptoLocker {
 			file.getParentFile().mkdirs();
 		}
 		file.createNewFile();
-		
+		System.out.println(cipherBytes.length);
 		ObjectOutputStream msgOS = new ObjectOutputStream(new FileOutputStream(
 				MSG_ENCRYPTION));
-		msgOS.writeObject(secretKey.toString());
+		msgOS.writeBytes(cipherText);
 		msgOS.close();
 
 	}
@@ -72,9 +81,27 @@ public class SymmetricCryptoLocker {
 	 * @throws Exception
 	 */
 	public void SymmetricDecrypt(SecretKey secretKey) throws Exception {
+		Cipher cipher;
+		
+		//InputStream in = new FileInputStream(MSG_ENCRYPTION);
 
+		//byte[] b = new byte[in.available()];
+		//in.read(b);
+		
+		//System.out.println(b.length);
+		//for (int i = 0; i < b.length; i++) {
+		//	System.out.print(b[i]);
+
+		//}
+		//System.out.println();
+		
+		cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
 		cipher.init(Cipher.DECRYPT_MODE, secretKey);
+
 		decryptBytes = cipher.doFinal(cipherBytes);
+		//decryptBytes = cipher.doFinal(b);
+		
+
 		String decryptedText = new String(decryptBytes, "UTF-8");
 		System.out.println("Decrypted Message: " + decryptedText);
 	}
@@ -97,10 +124,9 @@ public class SymmetricCryptoLocker {
 			file.getParentFile().mkdirs();
 		}
 		file.createNewFile();
-		
-		ObjectOutputStream keyOS = new ObjectOutputStream(new FileOutputStream(
-				KEY_FILE));
-		keyOS.writeObject(secretKey.toString());
+
+		FileOutputStream keyOS = new FileOutputStream(KEY_FILE);
+		keyOS.write(secretKey.getEncoded());
 		keyOS.close();
 
 		return secretKey;
