@@ -1,6 +1,20 @@
 Blog
 ========
 
+Blog #10 (27/04/2014)
+=====================
+Today we thought about ways to generate coordinates within our drawn UK MultiPolygon. We both agreed we would only
+be happy with getting the actual coordinates from the motorways, but that would mean we had to use OpenStreetMaps or
+another tool to extract that data. We put that idea aside for today and decided to start off by finding a way to just
+get coordinates within the UK. We continued reading the documentation about vividsolutions to see if they had any
+features in their API that would help us accomplish this, but didn’t really find any. Then we found a workaround for
+this: a MultiPolygon had the properties of a Polygon, so that meant we could get the bounding rectangle around the
+polygon. Then we could subsequently try and generate coordinates within this rectangle and afterwards check if they
+also actually lied within the polygon by using the method contains(Point p). We tried this out and this seemed to work
+smoothly. We can thus now create random lines/roads within the UK borders. Tomorrow we will be looking for a way to
+generate the actual roads with their corresponding GPS coordinates.
+
+
 Blog #9 (26/04/2014)
 ====================
 During the last 2 days we focussed on finding a way to generate coordinates within the UK borders. As we discussed in
