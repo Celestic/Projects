@@ -1,6 +1,51 @@
 Blog
 ========
 
+Blog #11 (30/04/2014)
+=====================
+Stumbled across 'Osmosis'. Apparently it's related to Openstreetmaps.  
+it has the ablity to grab an area or the etire planet if I wish so. 
+When I got the area I wanted I can filter out whatever data I need,
+every highway-motorway and even train or metroways are just a matter commands away.
+It returns me an XML file that is full of nodes & latitude and longitudes.
+Ofcourse whenever i try these commands they won't work from the first time. 
+There was an error with the .bat file , it didn't know the exact location of my java.
+
+Yes, entered a random collection of data from a country and I received all the roads i wanted even tram or railroads.
+
+<node id="737219006" version="4" timestamp="2012-02-22T18:59:41Z" uid="13832" user="Peter14" changeset="10762013" lat="48.144375" lon="11.5454794"/>
+  <node id="21324005" version="50" timestamp="2012-03-05T02:25:29Z" uid="342705" user="KonB" changeset="10875884" lat="48.1436171" lon="11.5488362">
+    <tag k="crossing" v="traffic_signals"/>
+    <tag k="highway" v="traffic_signals"/>
+    <tag k="TMC:cid_58:tabcd_1:Class" v="Point"/>
+    <tag k="TMC:cid_58:tabcd_1:Direction" v="negative"/>
+    <tag k="TMC:cid_58:tabcd_1:LCLversion" v="9.00"/>
+    <tag k="TMC:cid_58:tabcd_1:LocationCode" v="35356"/>
+    <tag k="TMC:cid_58:tabcd_1:NextLocationCode" v="35357"/>
+    <tag k="TMC:cid_58:tabcd_1:PrevLocationCode" v="35355"/>
+  </node>
+
+are a few examples of the data retrieved.
+with this i should be able to retrieve everything within the uk.
+
+Now we're sure that we retrieve data based on the xml file. We should be making sure it lies within the UK. 
+this is how I am supposed to grab the UK.
+GET /api/0.6/trackpoints?bbox=left,bottom,right,top&page=pageNumber
+where:
+left, bottom, right, and top are used the same way as they are in the command to retrieve nodes, ways, and relations.
+pageNumber specifies which group of 5,000 points, or page, to return. Since the command does not return more than 5,000 points at a time, this parameter must be incremented
+and the command sent again (using the same bounding box) in order to retrieve all of the points for a bounding box that contains more than 5,000 points. 
+When this parameter is 0 (zero), the command returns the first 5,000 points; when it is 1, the command returns points 5,001–10,000, etc.
+
+box=-1.9528,50.7034,-1.7633,50.7868 is supposed to be a box around the UK.
+This is rather clunky with a lot of space that is actually water or wasted space so good thing we could draw close to a perfect UK already where the coordinates are a good as perfect.
+
+From the England.osm file we retrieved all the higways and motorways. We couldn't even open the files using notepad++ because they were way to big, 10GB of XML data.
+the only file we could open was the one with the motorways.
+We messed around abit with them in java and parsed them so we could get the latitude and longtitude.
+
+
+
 Blog #10 (27/04/2014)
 =====================
 Today we thought about ways to generate coordinates within our drawn UK MultiPolygon. We both agreed we would only
