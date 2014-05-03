@@ -33,7 +33,7 @@ We were patiently waiting for the output, but the running seemed to be endless, 
 and went to the grocery store meanwhile. When we came back after an hour, it still wasn't finished. It needed 2 more
 hours to complete, only to end with another Java heap space exception, because after the parsing, we tried to write the
 data we needed to a new XML-file and this seemed to be impossible with only the 2GB of RAM we had assigned to the JVM.
-We tried running it on Sören's laptop with 4GB's of RAM assigned to it, and yet again to find out 3 hours later that
+We tried running it on another laptop with 4GB's of RAM assigned to it, and yet again to find out 3 hours later that
 this wasn't enough. We decided using our own parser wasn't the way to go and started googling some alternatives. This is
 when we found out that Osmosis had its own XML-reader which used a Sink implementation and Entities to parse the elements
 of the document. We implemented this and this time it only took 10 seconds to parse the whole document. This of course
