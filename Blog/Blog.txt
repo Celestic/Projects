@@ -1,6 +1,88 @@
 Blog
 ========
 
+Blog #12 (03/05/2014)
+=====================
+The last two days have been quite frustrating. We started working with the .osm-file that we generated with Osmosis.
+This was an XML-formatted file of over 100MB, (only including the highways, the files including all the major roads were
+multiple GB's large). We started off by writing our own parser for this using a DOM XML reader implementation. It wasn't
+easy to write this, because the osm-file only used the parent tags <node> and <relation>, and all of the other information
+was nested in the child elements <tag> that held only key and value pairs for all the information. Neither was there
+consistency in these tags, some included information that others didn't and so on.
+
+Example:
+========
+<node id="104734" version="13" timestamp="2013-05-17T15:44:57Z" uid="529926" user="craigsdg" changeset="16169093" lat="51.5656555" lon="-
+
+1.7852779">
+    <tag k="alt_name" v="Swindon Station"/>
+    <tag k="name" v="Swindon Railway Station"/>
+    <tag k="naptan:AtcoCode" v="9100SDON"/>
+    <tag k="operator" v="First Great western"/>
+    <tag k="platforms" v="4"/>
+    <tag k="railway" v="station"/>
+    <tag k="wheelchair" v="yes"/>
+    <tag k="wikipedia" v="en:Swindon railway station"/>
+</node>
+
+This meant we had to parse every key of every <tag> and check which key it was, only after doing so we could extract
+certain values we needed. After finishing our XML-reader, it was time for a first test. We tried to run it,
+but immediately got a Java heap space exception. We googled for a solution and found the possibility to assign more
+memory to JVM using Eclipse's VM Arguments. We assigned 2GB of RAM this time and the exception seemed to stay away.
+We were patiently waiting for the output, but the running seemed to be endless, so we just left it running for a while
+and went to the grocery store meanwhile. When we came back after an hour, it still wasn't finished. It needed 2 more
+hours to complete, only to end with another Java heap space exception, because after the parsing, we tried to write the
+data we needed to a new XML-file and this seemed to be impossible with only the 2GB of RAM we had assigned to the JVM.
+We tried running it on Sören's laptop with 4GB's of RAM assigned to it, and yet again to find out 3 hours later that
+this wasn't enough. We decided using our own parser wasn't the way to go and started googling some alternatives. This is
+when we found out that Osmosis had its own XML-reader which used a Sink implementation and Entities to parse the elements
+of the document. We implemented this and this time it only took 10 seconds to parse the whole document. This of course
+made us a bit angry at ourselves for not trying this earlier. But nonetheless, it was good news.
+
+We started playing around with this parser and found some interesting things: there already were Node and Relation classes
+that we could use. To see whether the read element was actually a node, we could use "if (entity instanceof Node)". At
+this point, we were already thinking that we were very close to extracting all the UK highways with their actual GPS
+coordinates, but this seemed to be a bit presumptious. While reading in all the Relations, we could extract the different
+members of the relation with their corresponding ID's, these should link to the different Nodes with their coordinates.
+But we soon found out that we could only cast these members to a class called WayNode, which for some odd reason didn't
+have the properties Latitude and Longitude, neither was it convertable to a Node. This meant we had to find a way to link
+the ID's of these WayNodes to the ID's of the 'normal' Nodes. To accomplish this, we wrote a second Sink implementation
+ourselves, so that the first one would read in all the Nodes and store them in a list, and the second one would read in
+all the Relations and store the different members in a List within a List (ArrayList<ArrayList<WayNode>>).
+After these two processes, we called a method that started comparing the ID's of these WayNode's per Relation with every
+single ID in the list of Nodes. This worked well, but we couldn't add the needed coordinates to these WayNodes, since,
+as mentioned earlier, they didn't have these properties. So we needed another fix for this. This is when we got the idea
+to start using JSON and just write everything in our own format. This would also be much easier to work with in the future.
+A little problem we had here was creating and writing the JSONObject at the right time:
+
+-  Start reading the main list of relations (= a highway) -> create a parent JSONObject, but don't write it yet
+
+-  Start reading the first way node in the relation and compare it to the nodes in the full node list -> write the node ID,
+   latitude and longitude to the same JSONObject, but don't write it yet
+   
+-  Keep reading the other way nodes in the same relation and add these ID's, lat's and lon's to the same JSONObject,
+   but don't write it yet
+   
+-  When done looping through all the way nodes in the relation, check if there are more than 1 nodes that were found
+   (we can't create a street from just one GPS coordinate) -> if so, then write this JSONObject to a file
+
+This program took 2 and half hours to run, but completed successfully. So we now have our own JSON-file representing all
+the highways of the UK represented by nodes with their corresponding GPS coordinates.
+
+Example:
+========
+
+{"way_id":50,
+
+	"params":[
+
+		{"longitude":1.2064482,"latitude":52.0263942,"node_id":16807730},				
+		{"longitude":1.2074784,"latitude":52.0260132,"node_id":20833152},
+		...
+
+
+
+
 Blog #11 (30/04/2014)
 =====================
 Stumbled across 'Osmosis'. Apparently it's related to Openstreetmaps.  
@@ -33,16 +115,18 @@ this is how I am supposed to grab the UK.
 GET /api/0.6/trackpoints?bbox=left,bottom,right,top&page=pageNumber
 where:
 left, bottom, right, and top are used the same way as they are in the command to retrieve nodes, ways, and relations.
-pageNumber specifies which group of 5,000 points, or page, to return. Since the command does not return more than 5,000 points at a time, this parameter must be incremented
-and the command sent again (using the same bounding box) in order to retrieve all of the points for a bounding box that contains more than 5,000 points. 
-When this parameter is 0 (zero), the command returns the first 5,000 points; when it is 1, the command returns points 5,001–10,000, etc.
+pageNumber specifies which group of 5,000 points, or page, to return. Since the command does not return more than
+5,000 points at a time, this parameter must be incremented and the command sent again (using the same bounding box) in
+order to retrieve all of the points for a bounding box that contains more than 5,000 points. When this parameter is 0
+(zero), the command returns the first 5,000 points; when it is 1, the command returns points 5,001–10,000, etc.
 
 box=-1.9528,50.7034,-1.7633,50.7868 is supposed to be a box around the UK.
-This is rather clunky with a lot of space that is actually water or wasted space so good thing we could draw close to a perfect UK already where the coordinates are a good as perfect.
+This is rather clunky with a lot of space that is actually water or wasted space so good thing we could draw close to a
+perfect UK already where the coordinates are a good as perfect.
 
-From the England.osm file we retrieved all the higways and motorways. We couldn't even open the files using notepad++ because they were way to big, 10GB of XML data.
-the only file we could open was the one with the motorways.
-We messed around abit with them in java and parsed them so we could get the latitude and longtitude.
+From the England.osm file we retrieved all the higways and motorways. We couldn't even open the files using notepad++
+because they were way to big, 10GB of XML data. The only file we could open was the one only including the highways.
+We will be looking for a way to parse these files tomorrow.
 
 
 
