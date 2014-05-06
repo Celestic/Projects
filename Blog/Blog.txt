@@ -1,6 +1,27 @@
 Blog
 ========
 
+Blog #13 (06/06/2014)
+=====================
+When we thought we had enough data to work with we let it parse by the Osmosis parser and putted the 'Nodes', 'Ways' and 'Relations' into lists.
+We tried to be effecient as possible by building sorting comparators so we could sort our lists on latitude & longitude.
+After that we generated cars with a start node and a end node.
+After that we tried to connect those two dots by building a route between, this wasn't as easy as it looked. 
+We tried several demo's etc until we read about the Dijkstra algorithm.
+
+Dijkstra partitions all nodes into two distinct sets. Unsettled and settled. 
+Initially all nodes are in the unsettled sets, e.g. they must be still evaluated. 
+A node is moved to the settled set if a shortest path from the source to this node has been found.
+Initially the distance of each node to the source is set to a very high value.
+
+First only the source is in the set of unsettledNodes.
+
+The algorithms runs until the unsettledNodes are empty. In earch iteration it selects the node with the lowest distance from the source out the unsettled nodes. 
+If reads all edges which are outgoing from the source and evaluates for each destination node in these edges which is not yet settled if the known distance from the source to this node can be reduced if the selected edge is used. 
+If this can be done then the distance is updated and the node is added to the nodes which need evaluation.
+
+Let's hope building a network of roads won't be that difficult anymore.
+
 Blog #12 (03/05/2014)
 =====================
 The last two days have been quite frustrating. We started working with the .osm-file that we generated with Osmosis.
