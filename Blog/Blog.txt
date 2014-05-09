@@ -1,9 +1,83 @@
 Blog
 ========
 
+
+Blog #14 (09/05/2014)
+=====================
+We have been focussing on two main things: routing algorithms and getting the final set of road data to work with.
+
+Routing:
+--------
+Connecting two nodes in order to generate cars and checking which road they took is getting quite frustrating.
+Given a list of cities/nodes and the distances between each pair of cities/nodes, what is for example the shortest
+possible route that visits each city/node exactly once and returns to the origin city?
+We tried a few algorithms but couldn't get them working so far.  There is always some issue with drawing our network graph.
+
+Thinking about the Traveling salesmen algorithm, feeling like that is the way to go, altough it seems to be very hard to
+figure out the exact details, since most of the algorithms are some "next-level math".
+
+We're trying out some libraries at the moment like pgRouting & graphopper , the last one looks promising.
+
+We could of course also just go for a random starting and ending point and let it randomly simulate whether a car would
+take a turn at a certain intersection or not, but for now, we are keeping this as a plan B, since working with a routing
+algorithm seems to be much more educational and fun.
+
+Final set of data:
+------------------
+As mentioned in the earlier blog, we had a really hard time extracting and parsing data from Osmosis, since the files
+were immensely huge. Once we got the Java Sink implementation working, we were really happy and thought we had all of the
+data we needed. Over the past week, we have been writing a "Relation-extractor" that would parse all of the relation-tags
+in the OSM-file and return us all of the nodes that belonged together. This took quite some work to accomplish (and again
+hours to run), but we managed to finish it eventually.
+
+Though, and here is where the bad news comes in, after some manual checking of a few nodes of a relation, it seemed the
+data provided by the OSM-file had A LOT of useless relations that we still don't understand.
+For example: a road with 10 nodes, of which 9 lay within 5 metres of each other, and the last one 30 miles further east.
+
+This was of course not what we wanted..
+
+So today we wrote a filtering application that used our earlier written distance calculator to check whether the nodes
+seemed to be in a realistic composition to one another.
+
+We applied some other filters on it as well, like: only keep relations with more than 5 nodes, only keep highways and
+motorways, only keep the ones that actually have intersections.
+
+After completing this application, we decided to check every intersection manually and build our own relation system
+between these roads. We decided to do this by giving every road our own ID and putting them in a look-up table, give
+every node its own ID and finally give every intersection the ID of both the road and node with which it intersected.
+
+Then we can just go through our look-up table and check to which other roads a car could make a turn to.
+You can imagine this took a realllyyy long time to do manually, but at least we now are sure we have a 100% exact set
+of data to work with.
+
+Last thing we managed to complete was  writing this data to our own format in JSON using the JSON-simple library, an
+example output:
+
+{"relations":[
+
+	{"way_id":1,
+		
+		"nodes":[	
+			{"id":0,"longitude":-0.231553,"latitude":51.573553},
+
+			{"id":1,"longitude":-0.236702,"latitude":51.60011},
+			
+			{"id":2,"longitude":-0.272236,"latitude":51.637947},
+			
+			...
+			
+			{"id":70,"longitude":-1.511788,"latitude":53.730823,"relation_road_ids":[32],"relation_node_ids":[806]}
+
+Finally, a last small update: generating cameras has received a little optimization, thanks to our distance calculator we
+can calculate the distance between the cameras and make sure they are both not too far away from each other, but also not
+too close to each other.
+
+
+
 Blog #13 (06/05/2014)
 =====================
-When we thought we had enough data to work with we let it parse by the Osmosis parser and putted the 'Nodes', 'Ways' and 'Relations' into lists.
+When we thought we had enough data to work with we let it parse by the Osmosis parser and putted the 'Nodes', 'Ways' and
+'Relations' into lists.
 We tried to be effecient as possible by building sorting comparators so we could sort our lists on latitude & longitude.
 After that we generated cars with a start node and a end node.
 After that we tried to connect those two dots by building a route between, this wasn't as easy as it looked. 
@@ -16,11 +90,14 @@ Initially the distance of each node to the source is set to a very high value.
 
 First only the source is in the set of unsettledNodes.
 
-The algorithms runs until the unsettledNodes are empty. In earch iteration it selects the node with the lowest distance from the source out the unsettled nodes. 
-If reads all edges which are outgoing from the source and evaluates for each destination node in these edges which is not yet settled if the known distance from the source to this node can be reduced if the selected edge is used. 
-If this can be done then the distance is updated and the node is added to the nodes which need evaluation.
+The algorithms runs until the unsettledNodes are empty. In earch iteration it selects the node with the lowest distance
+from the source out the unsettled nodes. If reads all edges which are outgoing from the source and evaluates for each
+destination node in these edges which is not yet settled if the known distance from the source to this node can
+be reduced if the selected edge is used. If this can be done then the distance is updated and the node is added to the
+nodes which need evaluation.
 
 Let's hope building a network of roads won't be that difficult anymore.
+
 
 Blog #12 (03/05/2014)
 =====================
