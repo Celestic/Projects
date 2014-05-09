@@ -1,7 +1,7 @@
 Blog
 ========
 
-Blog #13 (06/06/2014)
+Blog #13 (06/05/2014)
 =====================
 When we thought we had enough data to work with we let it parse by the Osmosis parser and putted the 'Nodes', 'Ways' and 'Relations' into lists.
 We tried to be effecient as possible by building sorting comparators so we could sort our lists on latitude & longitude.
