@@ -1,6 +1,28 @@
 Blog
 ========
 
+Blog #15 (11/05/2014)
+=====================
+We worked on our dissertation all weekend, so didn’t have too much time to work on our applications. Yet today we took
+the time to develop a bit further on the image tiler application.
+The application was already fully functional for a String to be divided into bytes and hidden in the different image tiles,
+but it didn’t work for any file type yet, which was asked for in the assignment.
+It was a really tricky thing to do, but we had good fun refactoring the application. 
+
+The problem we faced was that we needed to somehow tell our application what sort of file was being read and vice versa
+be able to know what type of file had to be decrypted afterwards. We managed to accomplish this by reading in a file and
+its extension, chop it into bytes and subsequently add a zero-byte as separator between the filename-extension part and
+the actual data part that has to be hidden. After this we used bit shifting to add this array of bytes into the different
+tiles and finished off by writing the decryption part. This part reads every different tile and checks for the hidden data
+using HashCodes to check, if nothing is found, it flips the tile 90 degrees and checks again, this until all four sides of
+the image are checked. Finally, we read the returned byte array until a zero-byte is found and then use a ByteOuputstream
+together with a FileOutputstream to write the hidden data part from after the zero-byte to a filename and extension read
+before the zero-byte.
+
+This was kind of really exciting to test, but worked smoothly. We tested our application with a .txt-file, a .png-file
+and a .wav audio file to be hidden inside a .jpeg, and all of them got hidden and extracted successfully. Hooray!
+
+
 
 Blog #14 (09/05/2014)
 =====================
